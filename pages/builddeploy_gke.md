@@ -114,6 +114,7 @@ The container is built, the cluster is also added to PFC. You are ready to deplo
     * Click in the **Select Container** field, and then select `hello-world-java`.
     * Click in the **Select Image Tag** field, choose the container you've built. There should be only one unless you've built multiple. It will also be tagged with the Pipelines build number, if so, picked the highest number. It will likely be in the format of:`<YOURID>/hello_world_java:456454`.
     <img src="../img/pfc_devjavadeploy_gke.png" height="300">
+    
     * Click **Add Container**.
     
     > There is a lot you can configure about a deployment.  For this deployment we don't actually need to adjust anything, but take the opportunity to click around in this interface.  You can adjust per container properties (port mappings, volumes, env vars), or deployment wide settings like deployment strategies revision history or volumes.

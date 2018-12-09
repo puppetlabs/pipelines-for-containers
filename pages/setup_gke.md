@@ -119,7 +119,7 @@ Let's ensure you can connect to the GKE environment in GCP and get familiar with
 * Navigate to your [GCP UI](https://console.cloud.google.com).
 * In the left menu, click **Kubernetes Engine**.
 
-<img src="../img/pfc_k8sinGCP.png" height="120">
+<img src="../img/pfc_k8sinGCP.png" height="180">
 
 * You will see the `pipelines-hol` cluster you built via Puppet Pipelines. Click the **Connect** button on the right.
 * Click **Run in Cloud Shell**. 

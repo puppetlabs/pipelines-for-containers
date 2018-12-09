@@ -41,7 +41,7 @@ You will now be priming your environment and connecting to the various resources
       > In your terminal, Control+C to kill the app after you've verified you can reach the page. It should look like this:
 
 
-      <img src="../img/pfc_java_homepage_first.png">
+      <img src="../img/pfc_java_homepage_first.png" height="300">
 
     * Now that you have a basic application, let's turn the application into a docker container.
   
@@ -132,7 +132,7 @@ Login to [Puppet Pipelines](https://pipelines.puppet.com).
 
 * In the left column, scroll down until you find the `Compute` section. You will find `Compute Engine` and `Kubernetes Engine`. When you mouse over each, you will see a thumbtack illuminate that you can click and pin the service to the top of the menu. Do this for each service.
 
-<img src="../img/pfc_gcppin.png" height="320">
+<img src="../img/pfc_gcppin.png" height="370">
 
 Next, you will enable several API endpoints in GCP otherwise the integration with Puppet Pipelines will be unsuccessful.
 
@@ -142,7 +142,7 @@ Next, you will enable several API endpoints in GCP otherwise the integration wit
   * Identity and Access Management (IAM) API
   * Click on the **Identity and Access Management (IAM) API** resource that is returned from the search.
 
-  <img src="../img/pfc_enableAPI1.png" height="150">
+  <img src="../img/pfc_enableAPI1.png" height="180">
 
   * Click the blue **ENABLE** button.
   * Follow the same process to enable the next three APIs:
@@ -158,7 +158,7 @@ You will now connect to GCP through Puppet Pipelines.
   * Enter your GCP redentials
   > If you get any warnings, such as "This App isn't verified", click **Advanced** and click **Go to Puppet Pipelines(unsafe)**.
   
-  <img src="../img/pfc_appisntverified.png" height="150">
+  <img src="../img/pfc_appisntverified.png" height="200">
 
   * If it asks "Puppet Pipelines wants to access your Google Account", click **Allow**.
 
@@ -167,6 +167,6 @@ You will now connect to GCP through Puppet Pipelines.
 * In the top menu, click **Integrations**.
 * You should see Github, Docker Hub, and Google Cloud with green checks.
 
-<img src="../img/pfc_greenchecks_int.png" height="120">
+<img src="../img/pfc_greenchecks_int.png" height="200">
 
 Excellent. Now you can move onto creating a [GKE cluster](setup_gke.md).

@@ -156,7 +156,7 @@ kubectl get deploy -o json | jq '.items[]| .metadata.labels.deployment + "  =   
 * On the left, click the **Services** tab.
 * In the filter window, enter **java**. You should see three services appear:
 
-<img src="../img/pfc_allthreeservices.png" height="240">
+<img src="../img/pfc_allthreeservices.png" height="340">
 
 Verify your applications are online by browsing to their respective *\<Load Balancer IP\>:9999*.
 
