@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    name: mysql
+    app: mysql
+spec:
+  ports:
+  - port: 3306
+    name: mysql
+    targetPort: 3306
+  selector:
+    deployment: mysql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-data-new
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: pfc
+    deployment: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pfc
+      deployment: mysql
+  template:
+    metadata:
+      labels:
+        app: pfc
+        deployment: mysql
+    spec:
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-data-new
+      containers:
+      - name: db
+        image: mysql:5.7
+        args: ["--ignore-db-dir=lost+found"]
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: puppetlabs
+          - name: MYSQL_DATABASE
+            value: pfc
+          - name: MYSQL_USER
+            value: pfc
+          - name: MYSQL_PASSWORD
+            value: puppetlabs
+        ports:
+          - containerPort: 3306
+        volumeMounts:
+          - mountPath: "/var/lib/mysql"
+            name: mysql-persistent-storage

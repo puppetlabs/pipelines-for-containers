@@ -1,0 +1,41 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "buildserver"
+  config.vm.box = "puppetlabs/ubuntu-16.04-64-nocm"
+  config.vm.box_check_update = false
+  config.vm.hostname = "buildserver"
+
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
+
+  config.vm.provision "shell" do |s|
+    hosts_entry = `/usr/local/bin/minikube ip`
+    s.args = ["#{hosts_entry} artifactory pfcagent pfcbackend pfcfrontend dev-app qa-app prod-app"]
+    s.inline = "echo $1 >> /etc/hosts"
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+    echo 'nameserver 8.8.8.4' >> /etc/resolv.conf
+    apt-get update
+    apt-get install -y software-properties-common python-software-properties curl apt-transport-https
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    add-apt-repository ppa:openjdk-r/ppa
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    apt-get update
+    apt-get install -y openjdk-8-jdk ca-certificates-java build-essential checkinstall git libssl-dev \
+      openssh-client openssh-server ca-certificates docker-ce
+    /var/lib/dpkg/info/ca-certificates-java.postinst configure
+    update-java-alternatives -s java-1.8.0-openjdk-amd64
+    apt-get install maven -y
+    locale-gen en_US.UTF-8
+    export LANG=en_US.utf8
+    echo 'LANG=en_US.utf8' >> /etc/default/locale
+    echo 'export LANG=en_US.utf8' >> /etc/profile
+    echo ''
+    echo 'Setup complete!'
+  SHELL
+end

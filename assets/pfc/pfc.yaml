@@ -1,0 +1,134 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pfc-deployment
+  labels:
+    app: pfc
+    deployment: pfc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pfc
+      deployment: pfc
+  template:
+    metadata:
+      labels:
+        app: pfc
+        deployment: pfc
+    spec:
+      imagePullSecrets:
+        - name: regsecret
+      initContainers:
+        - name: init-mysql
+          image: "busybox"
+          command:
+            - /bin/sh
+          args:
+            - "-c"
+            - "until nc -w 2 -zv mysql 3306; do echo 'waiting for mysql'; sleep 3; done;"
+            - "exit 0;"
+      containers:
+      - name: pfc
+        image: puppet/pipelines-for-containers:3.3.5-472751
+        env:
+          - name: DB_ENDPOINT
+            value: mysql://mysql.default.svc.cluster.local:3306/pfc
+          - name: USER
+            value: pfc
+          - name: MYSQL_PWD
+            value: puppetlabs
+        ports:
+          - containerPort: 8080
+          - containerPort: 7000
+          - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pfcfrontend
+  labels:
+    app: pfc
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: pfc
+    deployment: pfc
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pfcbackend
+  labels:
+    app: pfc
+spec:
+  ports:
+    - port: 8000
+      targetPort: 8000
+  selector:
+    app: pfc
+    deployment: pfc
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pfcagent
+  labels:
+    app: pfc
+spec:
+  ports:
+    - port: 7000
+      targetPort: 7000
+  selector:
+    app: pfc
+    deployment: pfc
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pfcagent-nodeport
+  labels:
+    app: pfc
+spec:
+  ports:
+    - port: 7000
+      nodePort: 32005
+      name: pfc-a-nodeport
+  selector:
+    deployment: pfc
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pfcfrontend-nodeport
+  labels:
+    app: pfc
+spec:
+  ports:
+    - port: 8080
+      nodePort: 32006
+      name: pfc-f-nodeport
+  selector:
+    deployment: pfc
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pfcbackend-nodeport
+  labels:
+    app: pfc
+spec:
+  ports:
+    - port: 8000
+      nodePort: 32007
+      name: pfc-b-nodeport
+  selector:
+    deployment: pfc
+  type: NodePort
