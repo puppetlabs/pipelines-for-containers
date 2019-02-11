@@ -57,6 +57,8 @@ Just a quick note; this exercise uses (2) local VMs.  One is running k8s(minikub
 
 #### Install your local environment
 
+The script `pre-work.sh` in the base of this repo will try and automate this process, installing, or guiding you to install any missing applications.
+
 * Virtualbox [Install](https://www.virtualbox.org/wiki/Downloads)
 * Vagrant [Install](https://www.vagrantup.com/intro/getting-started/install.html)
 * Kubectl [Install](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -71,7 +73,7 @@ Just a quick note; this exercise uses (2) local VMs.  One is running k8s(minikub
 
 #### Puppet Container Registry (PCR)
 
-Puppet hosts a docker registry service that can be used to manage your containers. Sign up for an account and use the registry for this hands-on lab: visit [Puppet Container Registry](https://pcr-internal.puppet.net/). 
+Puppet hosts a docker registry service that can be used to manage your containers. Sign up for an account and use the registry for this hands-on lab: visit [Puppet Container Registry](https://pcr-internal.puppet.net/).
 
 1. Click **Login via SSO**.
 2. Enter your Okta credentials.
@@ -79,7 +81,7 @@ Puppet hosts a docker registry service that can be used to manage your container
 
 Now you are ready to continue installing PFC on [minikube](install_pfc.md)!
 
-### <a name="path2">Path 2</a> 
+### <a name="path2">Path 2</a>
 
 In this path, you will be setting up a K8s environment in Google Cloud Platform and using Dockerhub.
 
